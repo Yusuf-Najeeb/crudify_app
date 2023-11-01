@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>CRUD</title>
+  </head>
+  <body>
+    <header>
+      <h2 class="text-center my-4 border-b-2 font-bold text-2xl text-slate-500">
+        <span class="text-green-300 text-3xl">Petels</span> TODOIST
+      </h2>
+    </header>
+    <main class="my-4 max-w-lg mx-auto p-2">
+      <form class="flex flex-col sm:flex-row justify-between">
+        <input
+          type="text"
+          name="user-input"
+          placeholder="What are you doing today?"
+          class="border py-2 px-4 m-2 sm:w-[80%] rounded-md"
+          id="todo_input"
+        />
+        <button
+          onclick="create_Todo(event)"
+          class="bg-green-300 text-slate-800 py-2 px-4 rounded-md m-2"
+          id="add_todo_btn"
+        >
+          Add&nbsp;Task
+        </button>
+        <button
+          onclick="updateTodo(event)"
+          class="hidden bg-yellow-300 text-slate-800 py-2 px-4 rounded-md m-2"
+          id="update_todo_btn"
+        >
+          Update&nbsp;Task
+        </button>
+      </form>
+      <span id="form_message" class="hidden block text-left p-2"></span>
+      <div id="task_log" class="bg-green-50 rounded-md p-2"></div>
+    </main>
+
+    <script src="main.js"></script>
+  </body>
+</html>
