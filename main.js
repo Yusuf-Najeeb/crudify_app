@@ -2,8 +2,10 @@
 //Database
 const DB_NAME = "todo_db";
 
-//Input Field
+//Global variables
 const addTodoInput = document.querySelector("#todo_input");
+const updateTodoBtn = document.querySelector("#update_todo_btn");
+const addTodoBtn = document.querySelector("#add_todo_btn");
 
 //Creat todo
 const create_Todo = function (e) {
@@ -22,7 +24,7 @@ const create_Todo = function (e) {
     const todo_db = getDB(DB_NAME);
 
     const new_todo_db = [...todo_db, newTodo];
-    localStorage.setItem(DB_NAME, JSON.stringify(new_todo_db));
+    setDB(DB_NAME, new_todo_db);
     resetInput();
     fetch_todoist();
   } catch (error) {
@@ -32,7 +34,7 @@ const create_Todo = function (e) {
 
 //Read todo
 const fetch_todoist = function () {
-  const todo_db = JSON.parse(localStorage.getItem(DB_NAME)) || [];
+  const todo_db = getDB(DB_NAME);
   const todo_Container = document.querySelector("#task_log");
   const noTodo = todo_db.length === 0;
   if (noTodo) {
@@ -40,12 +42,8 @@ const fetch_todoist = function () {
     return;
   }
 
-  const todos = todo_db
-    .sort((a, b) =>
-      a.created_at < b.created_at ? 1 : a.created_at > b.created_at ? -1 : 0
-    )
-    .map((todo) => {
-      return `<div
+  const todos = sortDB(todo_db).map((todo) => {
+    return `<div
       id="task"
       class="group flex flex-row items-center justify-between bg-green-100 p-3 rounded-md m-2"
     >
@@ -85,7 +83,7 @@ const fetch_todoist = function () {
         </button>
       </div>
     </div>`;
-    });
+  });
   todo_Container.innerHTML = todos.join(" ");
 };
 fetch_todoist();
@@ -99,11 +97,9 @@ const handleEditMode = function (id) {
   }
 
   addTodoInput.value = todo_toEdit.title;
-
-  const updateTodoBtn = document.querySelector("#update_todo_btn");
   updateTodoBtn.classList.remove("hidden");
+
   updateTodoBtn.setAttribute("todo_id_to_update", id);
-  const addTodoBtn = document.querySelector("#add_todo_btn");
   addTodoBtn.classList.add("hidden");
 };
 
@@ -114,7 +110,6 @@ const updateTodo = (e) => {
     return;
   }
 
-  const updateTodoBtn = document.querySelector("#update_todo_btn");
   const todoId = updateTodoBtn.getAttribute("todo_id_to_update");
 
   const todo_db = getDB(DB_NAME);
@@ -125,21 +120,20 @@ const updateTodo = (e) => {
       return todo;
     }
   });
-  localStorage.setItem(DB_NAME, JSON.stringify(updated_todo_db));
+
+  setDB(DB_NAME, updated_todo_db);
   fetch_todoist();
   resetInput();
   // console.log(updated_todo_db);
   updateTodoBtn.classList.add("hidden");
-
-  const addTodoBtn = document.querySelector("#add_todo_btn");
   addTodoBtn.classList.remove("hidden");
 };
 
 //Delete todo
 const deleteTodo = function (id) {
   Swal.fire({
-    title: "Delete this task?",
-    text: "You won't be able to revert this!",
+    title: "Delete this todo?",
+    text: "Are you sure you want to delete todo?",
     icon: "warning",
     confirmButtonText: "Yes!",
     showCancelButton: true,
@@ -148,7 +142,7 @@ const deleteTodo = function (id) {
       const todo_db = getDB(DB_NAME);
       const new_todo_db = todo_db.filter((todo) => todo.id !== id);
 
-      localStorage.setItem(DB_NAME, JSON.stringify(new_todo_db));
+      setDB(DB_NAME, new_todo_db);
       fetch_todoist();
     } else {
       return;

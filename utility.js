@@ -27,3 +27,13 @@ const getDB = (DB_NAME) => {
   }
   return JSON.parse(localStorage.getItem(DB_NAME)) || [];
 };
+
+const setDB = (DB_NAME, new_todo_db) => {
+  return localStorage.setItem(DB_NAME, JSON.stringify(new_todo_db));
+};
+
+const sortDB = (todo_db) => {
+  return todo_db.sort((a, b) =>
+    a.created_at < b.created_at ? 1 : a.created_at > b.created_at ? -1 : 0
+  );
+};
