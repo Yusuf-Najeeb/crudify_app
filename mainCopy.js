@@ -1,33 +1,41 @@
 "use strict";
+
+//Random UUID Generator function
+function todoID() {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    var r = (Math.random() * 16) | 0,
+      v = c == "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
 //Database
 const DB_NAME = "todo_db";
-
-//Input Field
-const addTodoInput = document.querySelector("#todo_input");
-
 //Creat todo
 const create_Todo = function (e) {
   e.preventDefault();
-  try {
-    if (!addTodoInput.value) {
-      showError("Please enter todo title");
-      return;
-    }
-    const newTodo = {
-      title: addTodoInput.value,
-      id: todoID(),
-      created_at: Date.now(),
-    };
-
-    const todo_db = getDB(DB_NAME);
-
-    const new_todo_db = [...todo_db, newTodo];
-    localStorage.setItem(DB_NAME, JSON.stringify(new_todo_db));
-    resetInput();
-    fetch_todoist();
-  } catch (error) {
-    showError(error.message);
+  const addTodoInput = document.querySelector("#todo_input");
+  if (!addTodoInput.value) {
+    const errowMessage = document.getElementById("form_message");
+    errowMessage.innerHTML = "Please enter a todo task";
+    errowMessage.classList.remove("hidden");
+    errowMessage.classList.add("text-sm", "text-red-400");
+    setTimeout(() => {
+      errowMessage.classList.add("hidden");
+    }, 3000);
+    return;
   }
+  const newTodo = {
+    title: addTodoInput.value,
+    id: todoID(),
+    created_at: Date.now(),
+  };
+
+  const todo_db = JSON.parse(localStorage.getItem(DB_NAME)) || [];
+
+  const new_todo_db = [...todo_db, newTodo];
+  localStorage.setItem(DB_NAME, JSON.stringify(new_todo_db));
+  addTodoInput.value = " ";
+  fetch_todoist();
 };
 
 //Read todo
@@ -92,32 +100,40 @@ fetch_todoist();
 
 //Update todo
 const handleEditMode = function (id) {
-  const todo_db = getDB(DB_NAME);
+  const todo_db = JSON.parse(localStorage.getItem(DB_NAME)) || [];
   const todo_toEdit = todo_db.find((todo) => todo.id === id);
   if (!todo_toEdit) {
     return;
   }
-
-  addTodoInput.value = todo_toEdit.title;
+  const inputField = document.querySelector("#todo_input");
+  inputField.value = todo_toEdit.title;
 
   const updateTodoBtn = document.querySelector("#update_todo_btn");
   updateTodoBtn.classList.remove("hidden");
   updateTodoBtn.setAttribute("todo_id_to_update", id);
+
   const addTodoBtn = document.querySelector("#add_todo_btn");
   addTodoBtn.classList.add("hidden");
 };
 
 const updateTodo = (e) => {
   e.preventDefault();
+  const addTodoInput = document.querySelector("#todo_input");
   if (!addTodoInput.value) {
-    showError("Todo title cannot be empty");
+    const errowMessage = document.getElementById("form_message");
+    errowMessage.innerHTML = "Please enter a todo task";
+    errowMessage.classList.remove("hidden");
+    errowMessage.classList.add("text-sm", "text-red-400");
+    setTimeout(() => {
+      errowMessage.classList.add("hidden");
+    }, 3000);
     return;
   }
 
   const updateTodoBtn = document.querySelector("#update_todo_btn");
   const todoId = updateTodoBtn.getAttribute("todo_id_to_update");
 
-  const todo_db = getDB(DB_NAME);
+  const todo_db = JSON.parse(localStorage.getItem(DB_NAME)) || [];
   const updated_todo_db = todo_db.map((todo) => {
     if (todo.id === todoId) {
       return { ...todo, title: addTodoInput.value };
@@ -127,7 +143,7 @@ const updateTodo = (e) => {
   });
   localStorage.setItem(DB_NAME, JSON.stringify(updated_todo_db));
   fetch_todoist();
-  resetInput();
+  addTodoInput.value = "";
   // console.log(updated_todo_db);
   updateTodoBtn.classList.add("hidden");
 
@@ -145,7 +161,7 @@ const deleteTodo = function (id) {
     showCancelButton: true,
   }).then((res) => {
     if (res.isConfirmed) {
-      const todo_db = getDB(DB_NAME);
+      const todo_db = JSON.parse(localStorage.getItem(DB_NAME));
       const new_todo_db = todo_db.filter((todo) => todo.id !== id);
 
       localStorage.setItem(DB_NAME, JSON.stringify(new_todo_db));
