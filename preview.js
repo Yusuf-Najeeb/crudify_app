@@ -44,7 +44,7 @@ const renderPreviewTodoId = function () {
 
   return (todo_Preview_Container.innerHTML = ` <section class="flex flex-col gap-2 absolute w-full" id="description">
   <section class="flex justify-between items-center">
-    <h3 class="text-xl"><input type="checkbox" name="done" id="complete" onchange="pending()"/>&nbsp;${title}</h3>
+    <h3 class="text-xl"><input class="p-4" type="checkbox" name="done" id="complete" onchange="pending()"/>&nbsp;${title}</h3>
     <div class="flex items-center gap-2">
       <button onclick="previewEditForm(event)">
         <svg
@@ -88,7 +88,7 @@ const renderPreviewTodoId = function () {
     <span>${generateDate(created_at)}</span>
     <span>&middot;</span>
     <span
-      class="text-xs rounded-full py-0.5 px-1.5 text-slate-600"
+      class="bg-yellow-400 text-xs rounded-full py-0.5 px-1.5 text-slate-600"
       id="task">Pending</span
     >
   </section>
@@ -126,14 +126,15 @@ const deleteTodo = function (id) {
 const pending = function () {
   const taskLog = document.querySelector("#task");
   const checkTask = document.getElementById("complete");
-  let taskColor = "bg-yellow-400";
 
   if (checkTask.checked === true) {
     taskLog.textContent = "Completed";
+    taskLog.classList.remove("bg-yellow-300");
     taskLog.classList.add("bg-green-300");
   } else {
     taskLog.textContent = "Pending";
-    taskLog.classList.add(taskColor);
+    taskLog.classList.remove("bg-green-300");
+    taskLog.classList.add("bg-yellow-400");
   }
 };
 pending();
