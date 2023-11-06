@@ -37,3 +37,16 @@ const sortDB = (todo_db) => {
     a.created_at < b.created_at ? 1 : a.created_at > b.created_at ? -1 : 0
   );
 };
+
+function generateDate(timestamp) {
+  const date = new Date(timestamp);
+
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1; // JavaScript months are zero-indexed
+  const day = date.getDate();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+
+  return `${year}-${month}-${day} : ${hours}:${minutes}`;
+}

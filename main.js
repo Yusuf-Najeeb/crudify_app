@@ -47,7 +47,7 @@ const fetch_todoist = function () {
       id="task"
       class="group flex flex-row items-center justify-between bg-green-100 p-3 rounded-md m-2"
     >
-      <p>${todo.title}</p>
+      <button onclick="handle_Preview_Todo('${todo.id}')">${todo.title}</button>
       <div class="hidden group-hover:flex">
         <button onclick="handleEditMode('${todo.id}')">
           <svg
@@ -148,4 +148,10 @@ const deleteTodo = function (id) {
       return;
     }
   });
+};
+
+//Preview todo function
+const handle_Preview_Todo = function (id) {
+  setDB("current_Preview_Todo", id);
+  window.location.href = "/preview_todo.html";
 };
