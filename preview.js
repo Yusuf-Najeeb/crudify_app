@@ -13,8 +13,8 @@ const handlePreviewEdit = function (e) {
   const todoID = todo_db.findIndex((todo) => todo.id === currentPreviewTodoId);
 
   if (todoID !== -1) {
-    // Update the currentTodo with the new title and added description
     if (updateTitle === "" || todoDescription === "") {
+      showError("Add title and description or cancel");
       return;
     } else {
       const updatedCurrentTodo = {
@@ -22,11 +22,9 @@ const handlePreviewEdit = function (e) {
         title: updateTitle,
         description: todoDescription,
       };
-      // Update the todo_db in local storage with the modified currentTodo
       todo_db[todoID] = updatedCurrentTodo;
       setDB("todo_db", todo_db);
     }
-    // Optionally, you can re-render or perform any other necessary actions
     document.querySelector("#preview_form").classList.add("hidden");
     renderPreviewTodoId();
   } else {
@@ -42,9 +40,9 @@ const renderPreviewTodoId = function () {
   const { title, id, created_at, description } = currentTodo;
   const todo_Preview_Container = document.querySelector("#description");
 
-  return (todo_Preview_Container.innerHTML = ` <section class="flex flex-col gap-2 absolute w-full" id="description">
+  return (todo_Preview_Container.innerHTML = ` <section class="flex flex-col gap-2 absolute w-full px-4" id="description">
   <section class="flex justify-between items-center">
-    <h3 class="text-xl"><input class="p-4" type="checkbox" name="done" id="complete" onchange="pending()"/>&nbsp;${title}</h3>
+    <h3 class="text-xl"><input class="p-2" type="checkbox" name="done" id="complete" onchange="pending()"/>&nbsp;${title}</h3>
     <div class="flex items-center gap-2">
       <button onclick="previewEditForm(event)">
         <svg
@@ -94,7 +92,6 @@ const renderPreviewTodoId = function () {
   </section>
 </section>`);
 };
-
 renderPreviewTodoId();
 
 const previewEditForm = function (e) {

@@ -17,11 +17,14 @@
       class="my-4 max-w-lg mx-auto p-2 relative flex flex-col items-end justify-start"
     >
       <section
-        class="border p-2 rounded-lg absolute z-50 w-[70%] right-0 mb-5 hidden"
+        class="bg-green-200 p-2 rounded-lg absolute z-50 w-[70%] right-0 mb-5"
         id="preview_form"
       >
         <form class="flex flex-col items-center gap-3 rounded-lg">
-          <button onclick="previewEditForm(event)">
+          <button
+            onclick="previewEditForm(event)"
+            class="self-end text-red-400"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -37,21 +40,25 @@
               />
             </svg>
           </button>
+          <span id="form_message" class="hidden block text-left p-2"></span>
           <input
             type="text"
             name="title_edit"
             id="title_edit"
             placeholder="Edit Todo Title"
-            class="border p-2 rounded-md my-2"
+            class="p-2 rounded-md my-1 w-full"
           />
           <textarea
             name="description"
             id="todo_description"
             rows="7"
-            class="border p-2 rounded-md w-full h-full"
+            class="p-2 rounded-md w-full h-full"
             placeholder="Enter descriptionhere"
           ></textarea>
-          <button class="border p-2" onclick="handlePreviewEdit(event)">
+          <button
+            class="rounded-md py-2 bg-yellow-300 px-4"
+            onclick="handlePreviewEdit(event)"
+          >
             Update
           </button>
         </form>
