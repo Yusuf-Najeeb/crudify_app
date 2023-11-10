@@ -38,7 +38,7 @@ const fetch_todoist = function () {
   const todo_Container = document.querySelector("#task_log");
   const noTodo = todo_db.length === 0;
   if (noTodo) {
-    todo_Container.innerHTML = `<p class="text-slate-400">Your todo list will appear here</p>`;
+    todo_Container.innerHTML = `<p class="text-slate-400">Your todo will appear here</p>`;
     return;
   }
 

@@ -5,7 +5,6 @@ const DB_NAME = "todo_db";
 const handlePreviewEdit = function (e) {
   e.preventDefault();
   document.querySelector("#preview_form").classList.remove("hidden");
-  const updateTitle = document.getElementById("title_edit").value;
   const todoDescription = document.getElementById("todo_description").value;
 
   const todo_db = getDB("todo_db");
@@ -13,13 +12,12 @@ const handlePreviewEdit = function (e) {
   const todoID = todo_db.findIndex((todo) => todo.id === currentPreviewTodoId);
 
   if (todoID !== -1) {
-    if (updateTitle === "" || todoDescription === "") {
+    if (todoDescription === "") {
       showError("Add title and description or cancel");
       return;
     } else {
       const updatedCurrentTodo = {
         ...todo_db[todoID],
-        title: updateTitle,
         description: todoDescription,
       };
       todo_db[todoID] = updatedCurrentTodo;
@@ -28,7 +26,7 @@ const handlePreviewEdit = function (e) {
     document.querySelector("#preview_form").classList.add("hidden");
     renderPreviewTodoId();
   } else {
-    console.error("Todo not found in the database.");
+    showError("Todo not found in the database.");
   }
 };
 

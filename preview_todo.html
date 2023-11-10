@@ -14,10 +14,14 @@
       </h2>
     </header>
     <main
-      class="my-4 max-w-lg mx-auto p-2 relative flex flex-col items-end justify-start"
+      class="my-4 max-w-lg h-[90vh] mx-auto p-2 relative flex flex-col items-end justify-start"
     >
       <section
-        class="bg-green-200 p-2 rounded-lg absolute z-50 w-[70%] right-0 mb-5 hidden"
+        class="flex flex-col gap-2 absolute w-full"
+        id="description"
+      ></section>
+      <section
+        class="bg-green-50 p-2 rounded-lg z-50 w-[100%] my-5 mt-40 hidden"
         id="preview_form"
       >
         <form class="flex flex-col items-center gap-3 rounded-lg">
@@ -41,19 +45,12 @@
             </svg>
           </button>
           <span id="form_message" class="hidden block text-left p-2"></span>
-          <input
-            type="text"
-            name="title_edit"
-            id="title_edit"
-            placeholder="Edit Todo Title"
-            class="p-2 rounded-md my-1 w-full"
-          />
           <textarea
             name="description"
             id="todo_description"
             rows="7"
             class="p-2 rounded-md w-full h-full"
-            placeholder="Enter descriptionhere"
+            placeholder="Enter description here..."
           ></textarea>
           <button
             class="rounded-md py-2 bg-yellow-300 px-4"
@@ -63,14 +60,10 @@
           </button>
         </form>
       </section>
-      <section
-        class="flex flex-col gap-2 absolute w-full"
-        id="description"
-      ></section>
-      <section class="bottom-80 w-[50%] absolute">
+      <section class="w-[50%] self-center absolute bottom-40">
         <a
           href="/index.html"
-          class="flex flex-row gap-2 items-center text-slate-500 hover:text-blue-400"
+          class="flex flex-row gap-2 justify-center items-center text-slate-500 hover:text-blue-400"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
